@@ -7,11 +7,11 @@ import dataProvider from '../../provider/dataProvider'
 
 const ThreeLetters = ({ navigation, position }) => {
 
-    const {stopBackgroundMusic} = useContext(DataContext)
+    const {stopBackgroundMusic, goRhymePage} = useContext(DataContext)
 
-    async function stopMusic(){
-        stopBackgroundMusic()
-        navigation.navigate("Rhymes")
+    async function rhymeScreen(row, column){
+        await stopBackgroundMusic()
+        goRhymePage(navigation, row, column)
     }
     
     let length = position === 8 ? [0, 1] : [0, 1, 2]
@@ -19,8 +19,9 @@ const ThreeLetters = ({ navigation, position }) => {
        
         return(
             <TouchableOpacity 
+                activeOpacity= {0.7}
                 key={`${position}${data}`}
-                onPress={stopMusic}
+                onPress={() => rhymeScreen(position, data)}
                 style={[styles.letterBlock, {backgroundColor: dataProvider.letterRows[position].colors[data]}]}>
                 <Image 
                     source={dataProvider.letterRows[position].ImageUrl[data]}

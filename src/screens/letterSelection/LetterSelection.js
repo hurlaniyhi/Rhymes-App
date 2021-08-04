@@ -18,12 +18,12 @@ const LetterSelection = ({navigation}) => {
   return  (
     <SafeAreaView style={styles.areaView} forceInset={{top: "always"}}>
       <NavigationEvents onWillFocus={startBackgroundMusic}/>
-      <TouchableOpacity style={styles.backButtonContainer} onPress={() => navigation.navigate("LandingPage")}>
+      {/* <TouchableOpacity style={styles.backButtonContainer} onPress={() => navigation.navigate("LandingPage")}>
         <Image 
           source={require("../../../assets/images/back.png")}
           style={styles.backButton}
         />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Image 
         source={require("../../../assets/images/Letters.png")}
         style={styles.title}
