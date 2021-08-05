@@ -15,8 +15,7 @@ const styles = StyleSheet.create({
     backButtonContainer: {
         position: "absolute",
         left: wp("7%"),
-        top: hp("6%"),
-        activeOpacity: 0.7
+        top: hp("6%")
     },
     backButton: {
         resizeMode: "contain",

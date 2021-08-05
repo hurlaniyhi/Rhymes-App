@@ -3,6 +3,7 @@ import { TouchableOpacity, Text, Image, View } from 'react-native'
 import {SafeAreaView, NavigationEvents} from 'react-navigation'
 import {FontAwesome} from '@expo/vector-icons'
 import DataContext from '../../state_manager/manager'
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import style from '../letterSelection/styles'
 import styles from './styles'
 
@@ -14,10 +15,15 @@ const Rhymes = ({navigation}) => {
 
     useEffect(() => {
 
-       return () => {
+       return async () => {
            stopRhyme()
        }
     }, [])
+
+    async function goLetterSelection(){
+        stopRhyme()
+        navigation.navigate("LetterSelection")
+    }
 
 
     return(
@@ -26,7 +32,7 @@ const Rhymes = ({navigation}) => {
             <TouchableOpacity 
                 activeOpacity= {0.7}
                 style={style.backButtonContainer} 
-                onPress={() => navigation.navigate("LetterSelection")}>
+                onPress={() => goLetterSelection()}>
             <Image 
                 source={require("../../../assets/images/back.png")}
                 style={style.backButton}
@@ -62,13 +68,13 @@ const Rhymes = ({navigation}) => {
             <Text style={styles.letterMeaning}>a is in apple</Text>
 
             <View style={styles.rhymeBar}>
-                <Text style={styles.rhymePositionReader}></Text>
-                <View style={styles.rhymePositionPointer}></View>
+                <Text style={[styles.rhymePositionReader, {width: wp(`${state.rhymeBar}%`)}]}></Text>
+                <View style={[styles.rhymePositionPointer, {left: wp(`${state.rhymeBar}%`)}]}></View>
             </View>
 
             <View style={styles.rhymeTimeContainer}>
-                <Text style={styles.rhymeTime}>00:52</Text>
-                <Text style={styles.rhymeTime}>01:18</Text>
+                <Text style={styles.rhymeTime}>{state.startTime}</Text>
+                <Text style={styles.rhymeTime}>{state.stopTime}</Text>
             </View>
 
             <View style={styles.rhymeControllerContainer}>

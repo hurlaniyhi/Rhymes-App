@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     rhymePositionReader: {
-        width: wp("53%"),
+        //width: wp("53%"),
         backgroundColor: "#FF005C",
         height: hp("0.3%")
     },
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         borderRadius: wp("100%"),
         backgroundColor: "#FF005C",
         top: hp("-0.9%"),
-        left: wp("53%")
+        //left: wp("53%")
     },
     rhymeTimeContainer: {
         width: wp("80%"),
