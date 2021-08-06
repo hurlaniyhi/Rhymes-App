@@ -186,7 +186,6 @@ export const StateProvider = (props) => {
                     row = state.position.row
                     column = state.position.column
                 }
-                
             }
             else{
                 column = state.position.column + 1
