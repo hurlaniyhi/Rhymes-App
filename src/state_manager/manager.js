@@ -27,20 +27,34 @@ const stateReducer = (state, action) => {
 
         case "set_rhyme_bar":
             if(action.payload >= 80){
-                //state.music.stopAsync()
+                state.music.stopAsync()
+                clearInterval(state.imageInterval)
                 clearInterval(state.interval)
+
+                return {
+                    ...state, rhymeBar: 0, currentTime: 0, play: false,
+                    letterImages: provider.letterRows[state.position.row].letterImages[state.position.column][0],
+                    letterMeaning: provider.letterRows[state.position.row].moreDetails[state.position.column].meaning[0]
+                }
             }
+            else{
                 return {...state, rhymeBar: action.payload}
-           
+            }
 
         case "set_start_time":
             if(state.rhymeBar >= 80){
-                action.payload = state.stopTime
+                //action.payload = state.stopTime
             } 
             return {...state, startTime: action.payload}
 
         case "set_current_time":
             return {...state, currentTime: 0}
+
+        case "set_letter_image_meaning":
+            return {...state, letterImages: action.payload.image, letterMeaning: action.payload.meaning}
+
+        case "set_image_interval":
+            return {...state, imageInterval: action.payload}
     }
 
 }
@@ -51,7 +65,8 @@ export const StateProvider = (props) => {
 
     const [state, dispatch] = useReducer(stateReducer,{
         backgroundMusic: new Audio.Sound(), isBackgroundMusic: null, music: new Audio.Sound(), position: {row: null, column: null},
-        play: false, letter: null, interval: null, rhymeBar: 0, startTime: "00:00", stopTime: "", currentTime: 0
+        play: false, letter: null, interval: null, rhymeBar: 0, startTime: "00:00", stopTime: "", currentTime: 0,
+        letterImages: "", letterMeaning: "", imageInterval: null
     })
 
     const startBackgroundMusic = async() => {
@@ -76,6 +91,11 @@ export const StateProvider = (props) => {
             letter: provider.letterRows[row].letters[column],
             stopTime: provider.letterRows[row].duration[column]
         }})
+
+        await dispatch({type: "set_letter_image_meaning", payload: {
+            image: provider.letterRows[row].letterImages[column][0],
+            meaning: provider.letterRows[row].moreDetails[column].meaning[0]
+        }})
         await navigation.navigate("Rhymes")
     }
 
@@ -83,6 +103,27 @@ export const StateProvider = (props) => {
         await state.music.unloadAsync()
         await state.music.loadAsync(provider.letterRows[state.position.row].rhyme[state.position.column])
         //await state.music.setIsLoopingAsync(true)
+    }
+
+    const setImage = async () => {
+        let intervalTime = provider.letterRows[state.position.row].moreDetails[state.position.column].interval
+        let numberOfImages = provider.letterRows[state.position.row].moreDetails[state.position.column].imageNumber
+
+        let count = 1
+        let interval = setInterval(async () =>{
+            if(count >= numberOfImages){
+                count = 0
+            }
+
+            await dispatch({type: "set_letter_image_meaning", payload: {
+                image: provider.letterRows[state.position.row].letterImages[state.position.column][count],
+                meaning: provider.letterRows[state.position.row].moreDetails[state.position.column].meaning[count]
+            }})
+
+            count++
+        }, intervalTime)
+
+        await dispatch({type: "set_image_interval", payload: interval})
     }
 
     async function setRhymeTime(){
@@ -100,8 +141,11 @@ export const StateProvider = (props) => {
 
             let currentTime = new Date((state.currentTime++) * 1000).toISOString().substr(11, 8).substring(3, 8)
             state.rhymeBar = state.rhymeBar + (80/Number(stopTime))
-            await dispatch({type: "set_rhyme_bar", payload: state.rhymeBar})
+
+            currentTime = state.rhymeBar >= 80 ? "00:00" : currentTime
             await dispatch({type: "set_start_time", payload: currentTime})
+            await dispatch({type: "set_rhyme_bar", payload: state.rhymeBar})
+
         }, 1000)
 
         await dispatch({type: "set_interval", payload: interval})
@@ -110,12 +154,18 @@ export const StateProvider = (props) => {
     const togglePlay = async () => {
         if(state.play){
             await state.music.stopAsync()
+            clearInterval(state.imageInterval)
             clearInterval(state.interval)
             await dispatch({type: "set_rhyme_bar", payload: 0})
             await dispatch({type: "set_start_time", payload: "00:00"})
             await dispatch({type: "set_current_time"})
+            await dispatch({type: "set_letter_image_meaning", payload: {
+                image: provider.letterRows[state.position.row].letterImages[state.position.column][0],
+                meaning: provider.letterRows[state.position.row].moreDetails[state.position.column].meaning[0]
+            }})
         }
         else{
+            setImage()
             setRhymeTime()
             await state.music.playAsync()
         }
@@ -170,15 +220,21 @@ export const StateProvider = (props) => {
         await state.music.unloadAsync()
         await state.music.loadAsync(provider.letterRows[row].rhyme[column])
         //await state.music.setIsLoopingAsync(true);
+        clearInterval(state.imageInterval)
         clearInterval(state.interval)
         await dispatch({type: "set_rhyme_bar", payload: 0})
         await dispatch({type: "set_start_time", payload: "00:00"})
         await dispatch({type: "set_current_time"})
+        await dispatch({type: "set_letter_image_meaning", payload: {
+            image: provider.letterRows[row].letterImages[column][0],
+            meaning: provider.letterRows[row].moreDetails[column].meaning[0]
+        }})
     }
 
     const stopRhyme = async () => {
         await state.music.stopAsync()
         await dispatch({type: "set_play", payload: false})
+        clearInterval(state.imageInterval)
         clearInterval(state.interval)
         await dispatch({type: "set_rhyme_bar", payload: 0})
         await dispatch({type: "set_start_time", payload: "00:00"})

@@ -5,7 +5,17 @@ export default dataProvider = {
             colors: ["rgba(0, 255, 133, 0.25)", "rgba(255, 0, 92, 0.25)", "rgba(128, 0, 255, 0.25)"],
             rhyme: [require('../../assets/backgroundSong/candyCrush.mp3'), require('../../assets/backgroundSong/rhyme_song.mp3'), require('../../assets/backgroundSong/rhyme_song5.mp3')],
             letters: [require("../../assets/images/circle-letters/Group.png"), require("../../assets/images/circle-letters/Group-1.png"), require("../../assets/images/circle-letters/Group-2.png")],
-            duration: ["00:20", "02:07", "02:13"]
+            duration: ["00:20", "02:07", "02:13"],
+            letterImages: [
+                [require("../../assets/images/letterImages/apples.png"), require("../../assets/images/letterImages/airplane.png"), require("../../assets/images/letterImages/ant.png"), require("../../assets/images/letterImages/antelope.png")], 
+                [require("../../assets/images/letterImages/ball.png"), require("../../assets/images/letterImages/bicycle.png"), require("../../assets/images/letterImages/banana.png")],
+                [require("../../assets/images/letterImages/cat.png"), require("../../assets/images/letterImages/cake.png"), require("../../assets/images/letterImages/carrot.png"), require("../../assets/images/letterImages/coconut.png")]
+            ],
+            moreDetails: [
+                {interval: 4000, imageNumber: 4, meaning: ["a as in apple", "a as in airplane", "a as in ant", "a as in antelope"]},
+                {interval: 5000, imageNumber: 3, meaning: ["b as in ball", "b as in bicycle", "b as in banana"]},
+                {interval: 6000, imageNumber: 3, meaning: ["c as in cat", " c as in cake", "c as in carrot", "c as in coconut"]}
+            ]
         },
         {
             ImageUrl: [require("../../assets/images/letters/d.png"), require("../../assets/images/letters/e.png"), require("../../assets/images/letters/f.png")],

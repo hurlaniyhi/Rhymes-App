@@ -59,13 +59,13 @@ const Rhymes = ({navigation}) => {
             <View style={[styles.border, styles.borderTop]}></View>
 
             <Image
-                source={require("../../../assets/images/apple.png")}
+                source={state.letterImages}
                 style={[styles.letterImages]}
             />
 
             <View style={[styles.border, styles.borderBottom]}></View>
 
-            <Text style={styles.letterMeaning}>a is in apple</Text>
+            <Text style={styles.letterMeaning}>{state.letterMeaning}</Text>
 
             <View style={styles.rhymeBar}>
                 <Text style={[styles.rhymePositionReader, {width: wp(`${state.rhymeBar}%`)}]}></Text>
