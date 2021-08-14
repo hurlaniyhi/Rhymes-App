@@ -253,9 +253,7 @@ export const StateProvider = (props) => {
 
 
     return (
-        <StateContext.Provider value={{state: state, ...boundActions}}>
-            {props.children}
-        </StateContext.Provider>
+        <StateContext.Provider value={{state: state, ...boundActions}}  {...props}/>
         )
 
 }
