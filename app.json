@@ -3,7 +3,7 @@
     "name": "Rhymes",
     "slug": "rhyme",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
+    "sdkVersion": "38.0.0",
     "platforms": [
       "ios",
       "android",
@@ -29,7 +29,8 @@
     "android": {
       "package": "com.lingosoft.rhymes",
       "versionCode": 1,
-      "icon": "./assets/rhymeIcon.png"
+      "icon": "./assets/rhymeIcon.png",
+      "enableDangerousExperimentalLeanBuilds": true
     }
   }
 }
