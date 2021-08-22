@@ -1,0 +1,3 @@
+expo update 39.0.0 - for version change
+expo client:install:android - to install expo client on android
+"sdkVersion": "39.0.0",

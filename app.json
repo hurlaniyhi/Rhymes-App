@@ -29,8 +29,7 @@
     "android": {
       "package": "com.lingosoft.rhymes",
       "versionCode": 1,
-      "icon": "./assets/rhymeIcon.png",
-      "enableDangerousExperimentalLeanBuilds": true
+      "icon": "./assets/rhymeIcon.png"
     }
   }
 }
